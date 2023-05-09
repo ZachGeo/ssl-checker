@@ -1,0 +1,1 @@
+0 8 * * * /usr/bin/python3 /tmp/ssl-checker/run.py >> /var/log/ssl-checker.log
