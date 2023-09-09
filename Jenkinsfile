@@ -14,7 +14,7 @@ pipeline {
         }
         stage("List Current Diretory"){
             steps {
-                sh "docker build -t ssl-checker ."
+                //sh "docker build -t ssl-checker ."
                 sh "docker images"
             }
         }
