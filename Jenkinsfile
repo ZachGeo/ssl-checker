@@ -11,5 +11,11 @@ pipeline {
                 checkout scm
             }
         }
+        stage("List Current Diretory"){
+            steps {
+                sh "ls"
+                sh "pwd"
+            }
+        }
     }
 }
