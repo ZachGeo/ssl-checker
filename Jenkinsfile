@@ -8,11 +8,7 @@ pipeline {
     stages {
         stage("Clone Git Repository"){
             steps {
-                git (
-                    url: "https://github.com/ZachGeo/ssl-checker.git",
-                    branch: "development",
-                    credentialsId: "${env.GIT_SSH_KEY}"
-                )
+                checkout scm
             }
         }
     }
