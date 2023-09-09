@@ -12,9 +12,9 @@ pipeline {
                 checkout scm
             }
         }
-        stage("List Current Diretory"){
+        stage("Build docker"){
             steps {
-                sh "docker images"
+                sh "sudo docker build -t ssl-checker ."
             }
         }
     }
