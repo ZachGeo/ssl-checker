@@ -8,13 +8,14 @@ pipeline {
     stages {
         stage("Clone Git Repository"){
             steps {
+                // Checkout based on the configured credentials in the current Jenkins Job
                 checkout scm
             }
         }
         stage("List Current Diretory"){
             steps {
-                sh "ls"
-                sh "pwd"
+                sh "docker build -t ssl-checker ."
+                sh "docker images"
             }
         }
     }
