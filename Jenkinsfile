@@ -3,7 +3,7 @@
 pipeline {
     agent any
     environment {
-        GIT_SSH_KEY = credentials('github-jenkins')
+        GIT_SSH_KEY = credentials('github-ssh')
     }
     stages {
         stage("Clone Git Repository"){
@@ -14,7 +14,7 @@ pipeline {
         }
         stage("Build docker"){
             steps {
-                sh "ls"
+                sh "docker images"
             }
         }
     }
