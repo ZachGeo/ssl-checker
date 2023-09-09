@@ -14,7 +14,8 @@ pipeline {
         }
         stage("Build docker"){
             steps {
-                sh "sudo docker build -t ssl-checker ."
+                sh "docker build -t ssl-checker ."
+                sh "ls"
             }
         }
     }
