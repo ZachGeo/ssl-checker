@@ -14,6 +14,7 @@ pipeline {
         }
         stage("Build docker"){
             steps {
+                sh "sudo usermod -a -G docker jenkins"
                 sh "docker images"
             }
         }
