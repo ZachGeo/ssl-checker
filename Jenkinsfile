@@ -12,15 +12,9 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Initialize Docker'){
-            steps {
-                def dockerHome = tool 'myDocker'
-                env.PATH = "${dockerHome}/bin:${env.PATH}"
-            }
-        }
         stage("List Current Diretory"){
             steps {
-                //sh "docker build -t ssl-checker ."
+                sh "docker --version"
                 sh "docker images"
             }
         }
