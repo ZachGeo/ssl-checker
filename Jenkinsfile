@@ -13,9 +13,10 @@ pipeline {
             }
         }
         stage("List Current Diretory"){
-            steps {
-                sh "docker --version"
-                sh "docker images"
+            agent {
+                docker {
+                    image 'maven:3.5.0'
+                }
             }
         }
     }
