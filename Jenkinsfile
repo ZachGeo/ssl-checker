@@ -37,7 +37,5 @@ pipeline {
             //sh "docker images"
             //sh "docker pull ${params.DOCKERHUB_ID}/covid_api:${params.DOCKER_IMAGE_VERSION}"
             //sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
-            }
-        }
     }
 }
