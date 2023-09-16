@@ -20,12 +20,12 @@ pipeline {
         }
         stage("Build Docker Image"){
             steps {
-                sh "docker build -t ssl-checker ."
+                sh "docker build -t ${DOCKER_REGISTRY_USERNAME}/ssl-checker ."
             }
         }
         stage("Login to Docker Registry"){
             steps {
-                sh 'echo $DOCKER_REGISTRY_TOKEN | docker login -u $DOCKER_REGISTRY_USERNAME --password-stdin'
+                sh "echo ${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
             }
         }
         stage("Tag Image"){
