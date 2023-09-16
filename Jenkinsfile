@@ -28,6 +28,7 @@ pipeline {
             steps {
                 sh '''
                     echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
+                    docker system info
                 '''
             }
         }
