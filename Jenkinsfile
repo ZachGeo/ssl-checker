@@ -4,12 +4,9 @@ pipeline {
     agent any
     environment {
         GIT_TOKEN = credentials('ssl-checker-jenkins-github-token')
-        DOCKER_REGISTRY_USERNAME = credentials('docker-registry-username')
-        DOCKER_REGISTRY_TOKEN = credentials('dockerhub-token')
     }
     parameters {
-        string (defaultValue: '', description: '', name: 'DOCKERHUB_ID')
-        string (defaultValue: 'latest', description: '', name: 'DOCKER_IMAGE_VERSION')
+        string (defaultValue: 'latest', description: 'The version of the docker image', name: 'DOCKER_IMAGE_VERSION')
     }
     stages {
         stage("Clone Git Repository"){
@@ -20,39 +17,28 @@ pipeline {
         }
         stage("Build Docker Image"){
             steps {
-                sh "docker build -t ${DOCKER_REGISTRY_USERNAME}/ssl-checker ."
+                sh "docker build -t ssl-checker ."
             }
         }
-        stage("Login to Docker") {
+        stage("Login to Dockerhub") {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-token', passwordVariable: 'pass', usernameVariable: 'user')]) {
-                    sh "docker login -u ${user} -p ${pass}"
-                    sh "docker system info"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-token', passwordVariable: 'dockerhub-token', usernameVariable: 'dockerhub-username')]) {
+                    sh '''echo "${dockerhub-token} | docker login -u ${dockerhub-username} --password-stdin'''
                 }
             }
         }
-        // stage("Login to Docker Registry"){
-        //     steps {
-        //         sh '''
-        //             echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
-        //             docker system info
-        //         '''
-        //     }
-        // }
-        // stage("Tag Image"){
-        //     steps {
-        //         sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
-        //         sh "docker images"
-        //     }
-        // }
-        // stage("Push Image"){
-        //     steps {
-        //         sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
-        //     }
-        // }
-            //sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
-            //sh "docker images"
-            //sh "docker pull ${params.DOCKERHUB_ID}/covid_api:${params.DOCKER_IMAGE_VERSION}"
-            //sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+        stage("Push Image to Registry"){
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-token', passwordVariable: '', usernameVariable: 'dockerhub-username')]) {
+                    sh "docker tag ssl-checker ${dockerhub-username'}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                    sh "docker push ${dockerhub-username'}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                }
+            }
+        }
+    }
+    post{
+        always{
+            sh 'docker logout'
+        }
     }
 }
