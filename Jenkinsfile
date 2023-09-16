@@ -30,8 +30,8 @@ pipeline {
         }
         stage("Push Image to Registry"){
             steps {
-                sh ('docker tag ssl-checker ${DOCKER_CREDS_USR}/ssl-checker:${params.DOCKER_IMAGE_VERSION}')
-                sh ('docker push ${DOCKER_CREDS_USR}/ssl-checker:${params.DOCKER_IMAGE_VERSION}')
+                sh 'docker tag ssl-checker ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
+                sh 'docker push ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
             }
         }
     }
