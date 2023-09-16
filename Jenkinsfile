@@ -4,6 +4,7 @@ pipeline {
     agent any
     environment {
         GIT_TOKEN = credentials('ssl-checker-jenkins-github-token')
+        DOCKER_CREDS = credentials('dockerhub-credentials')
     }
     parameters {
         string (defaultValue: 'latest', description: 'The version of the docker image', name: 'DOCKER_IMAGE_VERSION')
@@ -29,10 +30,8 @@ pipeline {
         }
         stage("Push Image to Registry"){
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: '', usernameVariable: 'username')]) {
-                    sh "docker tag ssl-checker ${username}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
-                    sh "docker push ${username}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
-                }
+                sh "docker tag ssl-checker ${DOCKER_CREDS_USR}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                sh "docker push ${DOCKER_CREDS_USR}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
             }
         }
     }
