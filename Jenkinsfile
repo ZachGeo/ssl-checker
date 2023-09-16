@@ -21,7 +21,9 @@ pipeline {
         }
         stage("Push Docker Image"){
             steps {
-                sh "docker login --username ${DOCKER_REGISTRY_USERNAME} --password ${DOCKER_REGISTRY_TOKEN}"
+                sh '''
+                    echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
+                '''
             }
         }
     }
