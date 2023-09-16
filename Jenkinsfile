@@ -17,21 +17,29 @@ pipeline {
             }
         }
         stage("Build Docker Image"){
+            // steps {
+            //     sh "docker build -t ssl-checker ."
+            // }
             steps {
-                sh "docker build -t ssl-checker ."
+                docker.withRegistry('https://docker.io/zachgeo', 'DOCKER_CREDS') {
+
+                    def customImage = docker.build("ssl-checker:${params.DOCKER_IMAGE_VERSION}")
+
+                    customImage.push()
+                }
             }
         }
-        stage("Login to Dockerhub"){
-            steps {              
-                sh 'echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin'
-            }
-        }
-        stage("Push Image to Registry"){
-            steps {
-                sh 'docker tag ssl-checker ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
-                sh 'docker push ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
-            }
-        }
+        // stage("Login to Dockerhub"){
+        //     steps {              
+        //         sh 'echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin'
+        //     }
+        // }
+        // stage("Push Image to Registry"){
+        //     steps {
+        //         sh 'docker tag ssl-checker ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
+        //         sh 'docker push ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
+        //     }
+        // }
     }
     post{
         always{
