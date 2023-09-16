@@ -32,7 +32,8 @@ pipeline {
         }
         stage("Tag Image"){
             steps {
-                sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                sh "docker tag ${DOCKER_REGISTRY_USERNAME}/ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                sh "docker images"
             }
         }
             //sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
