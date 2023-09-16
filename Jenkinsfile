@@ -23,15 +23,22 @@ pipeline {
                 sh "docker build -t ${DOCKER_REGISTRY_USERNAME}/ssl-checker ."
             }
         }
-
-        stage("Login to Docker Registry"){
+        stage("Login to Docker") {
             steps {
-                sh '''
-                    echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
-                    docker system info
-                '''
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-token', passwordVariable: 'pass', usernameVariable: 'user')]) {
+                    sh "docker login -u ${user} -p ${pass}"
+                    sh "docker system info"
+                }
             }
         }
+        // stage("Login to Docker Registry"){
+        //     steps {
+        //         sh '''
+        //             echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
+        //             docker system info
+        //         '''
+        //     }
+        // }
         // stage("Tag Image"){
         //     steps {
         //         sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
