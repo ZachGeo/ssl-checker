@@ -25,12 +25,14 @@ pipeline {
         }
         stage("Login to Docker Registry"){
             steps {
-                sh "echo ${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
+                sh '''
+                    echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
+                '''
             }
         }
         stage("Tag Image"){
             steps {
-                sh 'docker tag ssl-checker $params.DOCKERHUB_ID/ssl-checker:$params.DOCKER_IMAGE_VERSION'
+                sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
             }
         }
             //sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
