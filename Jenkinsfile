@@ -8,8 +8,8 @@ pipeline {
         DOCKER_REGISTRY_TOKEN = credentials('ssl-checker-jenkins-dockerhub-token')
     }
     parameters {
-        string (defaultValue: '', description: '', name: 'dockerhub-id')
-        string (defaultValue: 'latest', description: '', name: 'docker-image-version')
+        string (defaultValue: '', description: '', name: 'DOCKERHUBID')
+        string (defaultValue: 'latest', description: '', name: 'DOCKERIMAGEVERSION')
     }
     stages {
         stage("Clone Git Repository"){
@@ -29,7 +29,7 @@ pipeline {
                     echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
                     docker images
                 '''
-                sh "echo ${params.dockerhub-id}"
+                sh "echo ${params.DOCKERHUBID}"
             }
         }
     }
