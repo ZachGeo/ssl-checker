@@ -28,6 +28,7 @@ pipeline {
                 sh '''
                     echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
                 '''
+                sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
             }
         }
         stage("Tag Image"){
