@@ -8,8 +8,8 @@ pipeline {
         DOCKER_REGISTRY_TOKEN = credentials('ssl-checker-jenkins-dockerhub-token')
     }
     parameters {
-        string defaultvalue: '', description: '', name: 'dockerhub-id'
-        string defaultvalue: 'latest', description: '', name: 'docker-image-version'
+        string defaultValue: '', description: '', name: 'dockerhub-id'
+        string defaultValue: 'latest', description: '', name: 'docker-image-version'
     }
     stages {
         stage("Clone Git Repository"){
