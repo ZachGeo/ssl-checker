@@ -27,10 +27,10 @@ pipeline {
             steps {
                 sh '''
                     echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
-                    echo /"${params.dockerhub-id}/"
                     //docker tag ssl-checker ${params.dockerhub-id}/ssl-checker:${params.docker-image-version}
                     docker images
                 '''
+                sh "echo ${params.dockerhub-id}"
             }
         }
     }
