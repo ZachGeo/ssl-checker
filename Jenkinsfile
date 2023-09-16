@@ -3,9 +3,13 @@
 pipeline {
     agent any
     environment {
-        GIT_TOKEN = credentials('ssl-checker-jenkins-token')
+        GIT_TOKEN = credentials('ssl-checker-jenkins-github-token')
         DOCKER_REGISTRY_USERNAME = credentials('docker-registry-username')
-        DOCKER_REGISTRY_TOKEN = credentials('ssl-checker-jenkins-docker-token')
+        DOCKER_REGISTRY_TOKEN = credentials('ssl-checker-jenkins-dockerhub-token')
+    }
+    parameters {
+        string defaultvalue: '', description: '', name: 'dockerhub-id'
+        string defaultvalue: 'latest', description: '', name: 'docker-image-version'
     }
     stages {
         stage("Clone Git Repository"){
@@ -23,6 +27,8 @@ pipeline {
             steps {
                 sh '''
                     echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
+                    docker tag ssl-checker ${params.dockerhub-id}/ssl-checker:${params.docker-image-version}
+                    docker images
                 '''
             }
         }
