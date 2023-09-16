@@ -25,9 +25,7 @@ pipeline {
         }
         stage("Login to Docker Registry"){
             steps {
-                sh '''
-                    echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
-                '''
+                sh ('docker login -u $DOCKER_REGISTRY_USERNAME $DOCKER_REGISTRY_TOKEN')
             }
         }
         stage("Tag Image"){
