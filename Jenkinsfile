@@ -22,14 +22,14 @@ pipeline {
         }
         stage("Login to Dockerhub") {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-token', passwordVariable: 'dockerhub-token', usernameVariable: 'dockerhub-username')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'dockerhub-token', usernameVariable: 'dockerhub-username')]) {
                     sh '''echo "${dockerhub-token} | docker login -u ${dockerhub-username} --password-stdin'''
                 }
             }
         }
         stage("Push Image to Registry"){
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-token', passwordVariable: '', usernameVariable: 'dockerhub-username')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: '', usernameVariable: 'dockerhub-username')]) {
                     sh "docker tag ssl-checker ${dockerhub-username}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
                     sh "docker push ${dockerhub-username}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
                 }
