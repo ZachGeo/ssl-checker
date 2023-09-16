@@ -22,11 +22,8 @@ pipeline {
             }
         }
         stage("Login to Dockerhub"){
-            steps {
-                // withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'token', usernameVariable: 'username')]) {
-                
-                sh ('echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin')
-                // }
+            steps {              
+                sh 'echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin'
             }
         }
         stage("Push Image to Registry"){
