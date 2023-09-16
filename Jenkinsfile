@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh '''
                     echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
-                    docker system info | grep -E 'Username|Registry'
+                    sudo docker system info | grep -E 'Username|Registry'
                 '''
             }
         }
