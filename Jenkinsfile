@@ -38,7 +38,7 @@ pipeline {
         }
         stage("Push Image"){
             steps {
-                sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                sh "docker push ${DOCKER_REGISTRY_USERNAME}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
             }
         }
             //sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
