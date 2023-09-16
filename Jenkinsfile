@@ -37,5 +37,8 @@ pipeline {
         always{
             sh 'docker logout'
         }
+        success{
+            sh 'docker rmi ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
+        }
     }
 }
