@@ -23,11 +23,11 @@ pipeline {
                 sh "docker build -t ${DOCKER_REGISTRY_USERNAME}/ssl-checker ."
             }
         }
+
         stage("Login to Docker Registry"){
             steps {
-                sh '''
+                sh '
                     echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
-                    docker system info 
                 '''
             }
         }
@@ -42,9 +42,9 @@ pipeline {
         //         sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
         //     }
         // }
-        //     //sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
-        //     //sh "docker images"
-        //     //sh "docker pull ${params.DOCKERHUB_ID}/covid_api:${params.DOCKER_IMAGE_VERSION}"
-        //     //sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+            //sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+            //sh "docker images"
+            //sh "docker pull ${params.DOCKERHUB_ID}/covid_api:${params.DOCKER_IMAGE_VERSION}"
+            //sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
     }
 }
