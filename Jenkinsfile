@@ -19,9 +19,10 @@ pipeline {
                 sh "docker build -t ssl-checker ."
             }
         }
-        stage("Push Docker Image")
+        stage("Push Docker Image"){
             steps {
                 sh "docker login --username ${DOCKER_REGISTRY_USERNAME} --password ${DOCKER_REGISTRY_TOKEN}"
             }
+        }
     }
 }
