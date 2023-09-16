@@ -30,8 +30,8 @@ pipeline {
         stage("Push Image to Registry"){
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-token', passwordVariable: '', usernameVariable: 'dockerhub-username')]) {
-                    sh "docker tag ssl-checker ${dockerhub-username'}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
-                    sh "docker push ${dockerhub-username'}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                    sh "docker tag ssl-checker ${dockerhub-username}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                    sh "docker push ${dockerhub-username}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
                 }
             }
         }
