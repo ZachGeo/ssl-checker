@@ -26,7 +26,7 @@ pipeline {
         stage("Login to Docker Registry"){
             steps {
                 sh '''
-                    echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
+                    echo "${DOCKER_REGISTRY_TOKEN} | sudo docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
                 '''
                 sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
             }
