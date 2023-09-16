@@ -4,6 +4,8 @@ pipeline {
     agent any
     environment {
         GIT_TOKEN = credentials('ssl-checker-jenkins-token')
+        DOCKER_REGISTRY_USERNAME = credentials('docker-registry-username')
+        DOCKER_REGISTRY_TOKEN = credentials('ssl-checker-jenkins-docker-token')
     }
     stages {
         stage("Clone Git Repository"){
@@ -17,5 +19,9 @@ pipeline {
                 sh "docker build -t ssl-checker ."
             }
         }
+        stage("Push Docker Image")
+            steps {
+                sh "docker login --username ${DOCKER_REGISTRY_USERNAME} --password ${DOCKER_REGISTRY_TOKEN}"
+            }
     }
 }
