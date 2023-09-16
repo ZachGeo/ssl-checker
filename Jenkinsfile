@@ -5,7 +5,7 @@ pipeline {
     environment {
         GIT_TOKEN = credentials('ssl-checker-jenkins-github-token')
         DOCKER_REGISTRY_USERNAME = credentials('docker-registry-username')
-        DOCKER_REGISTRY_TOKEN = credentials('ssl-checker-jenkins-dockerhub-token')
+        DOCKER_REGISTRY_TOKEN = credentials('dockerhub-token')
     }
     parameters {
         string (defaultValue: '', description: '', name: 'DOCKERHUB_ID')
@@ -32,13 +32,13 @@ pipeline {
         }
         stage("Tag Image"){
             steps {
-                sh "docker tag ${DOCKER_REGISTRY_USERNAME}/ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
                 sh "docker images"
             }
         }
         stage("Push Image"){
             steps {
-                sh "docker push docker.io/${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
+                sh "docker push ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
             }
         }
             //sh "docker tag ssl-checker ${params.DOCKERHUB_ID}/ssl-checker:${params.DOCKER_IMAGE_VERSION}"
