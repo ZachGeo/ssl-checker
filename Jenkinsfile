@@ -28,6 +28,7 @@ pipeline {
                 sh '''
                     echo "${DOCKER_REGISTRY_TOKEN} | docker login -u ${DOCKER_REGISTRY_USERNAME} --password-stdin"
                     docker images
+                    docker tag ssl-checker "${params.dockerhub-id}"/ssl-checker:"${params.docker-image-version}"
                 '''
                 //sh "docker tag ssl-checker ${params.dockerhub-id}/ssl-checker:${params.docker-image-version}"
             }
