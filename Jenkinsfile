@@ -3,7 +3,7 @@
 pipeline {
     agent any
     environment {
-        GIT_SSH_KEY = credentials('github-ssh')
+        GIT_TOKEN = credentials('ssl-checker-jenkins-token')
     }
     stages {
         stage("Clone Git Repository"){
@@ -12,9 +12,9 @@ pipeline {
                 checkout scm
             }
         }
-        stage("Build docker"){
+        stage("Build Docker Image"){
             steps {
-                sh "docker images"
+                sh "docker build -t ssl-checker ."
             }
         }
     }
