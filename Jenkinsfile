@@ -20,7 +20,7 @@ pipeline {
                 sh "docker build -t ssl-checker ."
             }
         }
-        stage("Login to Dockerhub") {
+        stage("Login to Dockerhub"){
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'dockerhub-token', usernameVariable: 'dockerhub-username')]) {
                     sh "docker login -u ${dockerhub-username} -p ${dockerhub-token}"
