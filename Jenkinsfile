@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 def slack_channel = 'ssl-checker-build'
-def slack_msg = "Job [${JOB_NAME}] Logs path: ${BUILD_URL}/consoleText"
+def slack_msg = "Job [${JOB_NAME}] Logs path: ${BUILD_URL}consoleText"
 
 pipeline {
     agent any
