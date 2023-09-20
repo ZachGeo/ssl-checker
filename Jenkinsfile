@@ -25,8 +25,13 @@ pipeline {
             }
         }
         stage("Login to Dockerhub"){
-            steps {              
-                sh 'echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin'
+            steps {
+                script{
+                    withCredentials([string(credentialId: '', variable: 'docker_cred_psw')]){
+                        sh 'docker login -u ${DOCKER_CREDS_USR} -p ${docker_cred_psw}'
+                    }
+                }              
+                //sh 'echo ${DOCKER_CREDS_PSW} | docker login -u ${DOCKER_CREDS_USR} --password-stdin'
             }
         }
         stage("Push Image to Registry"){
