@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 def slack_channel = 'ssl-checker-build'
-def slack_msg = " FAILED: Job [${JOB_NAME}] Logs path: ${BUILD_URL}"
+def slack_msg = "Job [${JOB_NAME}] Logs path: ${BUILD_URL}/consoleText"
 
 pipeline {
     agent any
@@ -42,18 +42,17 @@ pipeline {
         }
         success{
             sh 'docker rmi ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
-            sh "echo ${slack_msg}"
             slackSend (
                 channel: "${slack_channel}", 
                 color: '#008000', 
-                message: "SUCCESS: JOB ${env.JOB_NAME}, BUILD ${env.BUILD_NUMBER}, IMAGE ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}"
+                message: "SUCCESS: ${slack_msg}"
             )
         }
         failure{
             slackSend(
                 channel: "${slack_channel}",
                 color: '#FF0000',
-                message: 'FAILURE: JOB ${env.JOB_NAME}, BUILD ${env.BUILD_NUMBER}'
+                message: "FAILURE: ${slack_msg}"
             )
         }
     }
