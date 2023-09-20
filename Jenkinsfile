@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+def slack_channel = 'ssl-checker-build'
+
 pipeline {
     agent any
     environment {
@@ -39,6 +41,13 @@ pipeline {
         }
         success{
             sh 'docker rmi ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
+            script {
+                slackSend(
+                    channel: '${slack_channel}',
+                    color: '#36a64f',
+                    message: 'JOB: ${env.JOB_NAME}, BUILD: ${env.BUILD_NUMBER}, IMAGE: ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
+                )
+            }
         }
     }
 }
