@@ -41,13 +41,19 @@ pipeline {
         }
         success{
             sh 'docker rmi ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
-            script {
-                slackSend(
-                    channel: '${slack_channel}',
-                    color: '#36a64f',
-                    message: 'JOB: ${env.JOB_NAME}, BUILD: ${env.BUILD_NUMBER}, IMAGE: ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
-                )
-            }
+            slackSend(
+                channel: '${slack_channel}',
+                color: '#008000',
+                message: 'SUCCESS: JOB ${env.JOB_NAME}, BUILD ${env.BUILD_NUMBER}, IMAGE ${DOCKER_CREDS_USR}/ssl-checker:${DOCKER_IMAGE_VERSION}'
+            )
+
+        }
+        failure{
+            slackSend(
+                channel: '${slack_channel}',
+                color: '#FF0000',
+                message: 'FAILURE: JOB ${env.JOB_NAME}, BUILD ${env.BUILD_NUMBER}'
+            )
         }
     }
 }
